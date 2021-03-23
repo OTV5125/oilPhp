@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  web:
+    build: web
+    volumes:
+      - ../oil:/var/www/html/
+      - ./web/conf/:/etc/apache2/sites-available/
+    ports:
+    - 80:80
+    working_dir: /var/www/html/public
+
+  db:
+    build: db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: oil
+    ports:
+      - 3306:3306
+    working_dir: /db
+
+  composer:
+    image: composer:2.0
+    volumes:
+    - ../oil/:/var/www/html/
+    working_dir: /var/www/html/
+    command: composer update --ignore-platform-reqs
