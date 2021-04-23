@@ -1,2 +1,3 @@
 .idea/
 /oil/vendor/
+/oil/composer.lock
